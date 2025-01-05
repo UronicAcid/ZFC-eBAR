@@ -25,9 +25,9 @@ in Linux, Mac OS, and Windows.
 Clone this repository, then install the software.
 
 ```{shell}
-$ git clone https://github.com/wolfsonliu/zfc.git
-$ cd zfc
-$ python3 setup.py install
+$ conda create -n zfc-ebar python==3.11.3
+$ cd /path/to/ZFC-eBAR
+$ python setup.py install
 ```
 
 ## Usage ##
@@ -72,7 +72,7 @@ options:
                         The iteration to generate null distribution in
                         calculating the p value of genes. The larger the
                         better, but slower in calculation, default to be 100.
-  --plot                Output figures.
+  --plot                Output additional QC figures.
   --use_small_count     whether to add a small count to the count matrix,
                         avoid to devide by 0, default to be False.
   --min_ctrl_counts MIN_CTRL_COUNTS
@@ -87,9 +87,10 @@ options:
 
 
 ```shell
-./bin/zfc-ebar --i A549_D0_vs_D35.count.txt --normalization median --min_ctrl_count 100 --use_small_count -o A549_median_min_ctrl_counts_100_use_small_count --plot
+./bin/zfc_ebar -i example/A549_D0_vs_D35.count.txt --normalization median --min_ctrl_count 100 -o A549_median_min_ctrl_counts_100 
 ```
 
 
-对结果的解读
-建议查看文件，如果拟合出现偏差，可以调整代码中lowess regression的参数
+If there is a bias in the fitting, you can adjust the parameters of the lowess regression in the code: ``lowess_regression`` function in ``fit_by_lowess.py``. 
+
+The setting of ``--min_ctrl_count`` and ``--use_small_count`` parameters were different in the original HCT116 analysis. Specific parameters and corresbonding quanlity control can be found in example/ZFC-eBAR_HCT116.ipynb. This Jupyter Lab can be run in the same environment and includes all the necessary functions.

@@ -6,7 +6,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-package = 'zfc-ebar'
+package = 'zfc_ebar'
 version = '0.1.1'
 
 
@@ -36,15 +36,15 @@ setup(
     author='Wei Tang',
     author_email='tangwei@stu.pku.edu.cn',
     license='GPL',
-    packages=['zfc-ebar'],
+    packages=['zfc_ebar'],
     install_requires=[
         'numpy', 'scipy', 'pandas',
-        'matplotlib', 'sklearn', 'statsmodels'
+        'matplotlib', 'scikit-learn', 'statsmodels'
     ],
     scripts=[
-        'bin/zfc-ebar',
+        'bin/zfc_ebar',
     ],
-    package_dir={'zfc': 'zfc-ebar'},
+    package_dir={'zfc_ebar': 'zfc_ebar'},
     include_package_data=True,
     zip_safe=False
 )
