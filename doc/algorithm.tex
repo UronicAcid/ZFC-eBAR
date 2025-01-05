@@ -1,0 +1,134 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{natbib} %a package for better cite \citep for parenthetical (author, 0000) \citet for textual author (0000)
+\bibliographystyle{abbrvnat}
+\bibpunct{}{}{,}{s}{}{\textsuperscript{,}}
+\renewcommand\bibnumfmt[1]{#1.}
+
+
+\title{Algorithm}
+
+\begin{document}
+\maketitle
+
+The ZFC analysis algorithm adopts the z-score of log2 fold change as
+the judgement of the sgRNA and gene changes between reference group
+(without treatment) and experiment group (with treatment). ZFC
+supports screening with iBAR \citep{zhu_guide_2019} employed, as
+well as conventional screening with replicates. The sgRNA with
+replicates and sgRNA$^{iBAR}$ is treated with similar procedure.
+
+\section{Normalization of raw counts}
+
+In the ZFC algorithm, total-count normalization and median-ratio
+normalization can be applied to the raw count data to normalize the
+batch effects. Total count is applied to rectify the batch sequencing
+depth for the normalization purpose of raw counts with an assumption
+that the distributions of control and experiment groups remain scant
+similar. And for a bidirectional screening, the enrichment genes might
+greatly affect the distribution of experiment group. Median-ratio
+normalization should be adopt instead of total-count normalization.
+
+Because some sgRNAs in the reference have very low raw counts, which
+can affect the fold change calculation of the following analysis. We
+define sgRNAs counts less than 0.05 quantile both in reference group
+and experiment group as the small count sgRNAs. The mean counts of all
+the small count sgRNAs were added to the normalized counts. The
+normalized counts for sgRNAs in reference group are calculated as
+following expression:
+
+$$Cn_{i} = \frac{Cr_{i}}{S_{ref}} \times 0.5 \times (S_{ref} + S_{exp})$$
+
+$$C_{i} = Cn_{i} + Cm_{small}$$
+
+where, $Cn_{i}$ is the normalized count of ith sgRNA$^{iBAR}$ in
+reference group, $Cr_{i}$ is the raw count of ith sgRNA$^{iBAR}$,
+$Cm_{small}$ is the mean counts of all the small count sgRNAs,
+$S_{ref}$ is the sum of raw counts of all the sgRNA$^{iBAR}$ in
+reference group, $S_{exp}$ is the sum of raw counts of all the
+sgRNA$^{iBAR}$ in experiment group, $C_{i}$ is the final normalized
+counts for ith sgRNA$^{iBAR}$ after small count adjustment. The
+normalized counts for sgRNAs in experiment group are calculated
+similarly.
+
+\section{Calculate fold change}
+
+The raw fold change of each sgRNA$^{iBAR}$ is calculated from the
+normalized counts of reference and experiment groups.
+
+$$fc_{i} = \frac{Cexp_{i}}{Cref_{i}}$$
+$$lfc_{i} = \log_{2}fc_{i}$$
+
+where, $fc_{i}$ is the fold change (FC) of ith sgRNA$^{iBAR}$ and
+$lfc_{i}$ is the log2 fold change (LFC) of ith sgRNA$^{iBAR}$,
+$Cref_{i}$ and $Cexp_{i}$ are the normalized counts of reference
+and experiment groups respectively.
+
+\section{Calculate fold change standard deviation}
+
+In order to calculate z-score of LFC (ZLFC), the standard deviation of
+LFC should be calculated. The LFC of sgRNA$^{iBAR}$ is related to the
+normalized counts of reference group. So the standard deviations of
+LFC are different for sgRNA$^{iBAR}$s with different normalized counts
+of reference group. All the sgRNA$^{iBAR}$s are divided into several
+sets according to the normalized counts of reference group. And the
+standard deviations of log fold change are calculated among the
+divided sets. The LFC standard deviation and the normalized counts of
+the reference is linearly related. So, a linear model is calculated
+for the LFC sd and reference counts. And the linear model is used to
+calculate the LFC standard deviation for all the sgRNA$^{iBAR}$s.
+
+\section{Raw z score of log fold change}
+
+The raw z score of log fold change is calculated.
+
+$$raw ZLFC = \frac{LFC}{LFC std}$$
+
+sgRNA$^{iBAR}$ ZLFC p values are calculated from normal distribution.
+
+\section{Calculate sgRNA mean z score of fold change}
+
+The sgRNA level ZLFCs are calculated as the mean of all the ZLFCs of
+the relevant sgRNA$^{iBAR}$s.
+
+$$ZLFC_{sgRNA} = \frac{\sum{ZLFC_{sgRNA-iBAR}}}{n}$$
+
+where, the sgRNA has $n$ sgRNA$^{iBAR}$s.
+
+Empirical P value is also calculated for the sgRNA ZLFCs. The p value
+is adjusted considering control of False Discovery Rate
+\citep{benjamini_controlling_1995}.
+
+\section{Calculate gene mean z score of fold change}
+
+The gene level ZLFCs are calculated as the mean of all the ZLFCs of
+the relevant sgRNAs.
+
+$$ZLFC_{gene} = \frac{\sum{ZLFC_{sgRNA}}}{m}$$
+
+where, the gene has $m$ sgRNAs.
+
+Empirical P value is also calculated for the gene ZLFCs. The p value
+is adjusted considering control of False Discovery Rate
+\citep{benjamini_controlling_1995}.
+
+
+\section{Robust rank aggregation analysis}
+
+
+Robust rank aggregation \citep{kolde_robust_2012} is utilized to
+calculate the rank significance of the sgRNA and gene with the
+sgRNA$^{iBAR}$s in the whole library. Aside from robust rank
+aggregation, mean rank aggregation is also calculated. The robust rank
+score is adjusted considering control of False Discovery Rate
+\citep{benjamini_controlling_1995}.
+
+\bibliography{al}
+
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
