@@ -85,12 +85,16 @@ options:
 
 ## Example ##
 
+Data files can be found at https://zenodo.org/.
 
 ```shell
 ./bin/zfc_ebar -i example/A549_D0_vs_D35.count.txt --normalization median --min_ctrl_count 100 -o A549_median_min_ctrl_counts_100 
 ```
 
-
 If there is a bias in the fitting, you can adjust the parameters of the lowess regression in the code: ``lowess_regression`` function in ``fit_by_lowess.py``. 
 
-The setting of ``--min_ctrl_count`` and ``--use_small_count`` parameters were different in the original HCT116 analysis. Specific parameters and corresbonding quanlity control can be found in example/ZFC-eBAR_HCT116.ipynb. This Jupyter Lab can be run in the same environment and includes all the necessary functions.
+The setting of ``--min_ctrl_count`` and ``--use_small_count`` parameters were different in the original HCT116 analysis. 
+```shell
+./bin/zfc_ebar -i example/HCT116_D0_vs_D35.count.txt --normalization median --min_ctrl_count 1 --use_small_count -o HCT116_median_use_small_count
+```
+Specific parameters and corresbonding quanlity control can be found in example/ZFC-eBAR_HCT116.ipynb. This Jupyter Lab can be run in the same environment and includes all the necessary functions. For HCT116, there is only a negligible difference between JupyterLab and the aforementioned command-line version, with a correlation of 1 between the two results.
