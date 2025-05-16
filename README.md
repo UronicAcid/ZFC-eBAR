@@ -69,7 +69,7 @@ options:
 
 ## Example ##
 
-Data files can be found at https://zenodo.org/.
+Data files can be found at https://zenodo.org/records/14639522.
 
 ```shell
 ./bin/zfc_ebar -i example/A549_D0_vs_D35.count.txt --normalization median --min_ctrl_count 100 -o A549_median_min_ctrl_counts_100 
