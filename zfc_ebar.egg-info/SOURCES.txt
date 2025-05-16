@@ -1,0 +1,16 @@
+LICENSE
+README.md
+setup.py
+bin/zfc_ebar
+zfc_ebar/__init__.py
+zfc_ebar/fit_by_lowess.py
+zfc_ebar/plot.py
+zfc_ebar/programio.py
+zfc_ebar/statsfunc.py
+zfc_ebar/zfoldchange.py
+zfc_ebar.egg-info/PKG-INFO
+zfc_ebar.egg-info/SOURCES.txt
+zfc_ebar.egg-info/dependency_links.txt
+zfc_ebar.egg-info/not-zip-safe
+zfc_ebar.egg-info/requires.txt
+zfc_ebar.egg-info/top_level.txt
